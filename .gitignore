@@ -1,0 +1,15 @@
+# 忽略Git提交提示
+# 编译文件
+target/
+
+# IDEA #
+.idea
+*.iml
+
+# Eclipse
+.settings/
+.classpath
+.progect
+
+# Jrebel文件
+rebel.xml

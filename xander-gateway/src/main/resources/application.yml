@@ -1,0 +1,70 @@
+server:
+  port: 8201
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #开启动态路由
+          enabled: true
+          lower-case-service-id: true #使用小写service-id
+      #配置路由规则
+      routes:
+        - id: xander-auth
+          uri: lb://xander-auth
+          # 断言拦截路径
+          predicates:
+            - Path=/xander-auth/**
+          # 把一个路径去掉，在这里去掉/xander-auth部分
+          filters:
+            - StripPrefix=1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #配置RSA的公钥访问地址,后续可以写为服务内域名
+          jwk-set-uri: 'http://localhost:8201/xander-auth/rsa/publicKey'
+  redis:
+    host: 127.0.0.1 # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+
+secure:
+  ignore:
+    #配置白名单路径
+    urls:
+      - "/doc.html"
+      - "/swagger-resources/**"
+      - "/swagger/**"
+      - "/*/v2/api-docs"
+      - "/*/*.js"
+      - "/*/*.css"
+      - "/*/*.png"
+      - "/*/*.ico"
+      - "/webjars/**"
+      - "/actuator/**"
+      - "/xander-auth/oauth/token"
+      - "/xander-auth/rsa/publicKey"
+      - "/xander-search/**"
+      - "/xander-portal/sso/login"
+      - "/xander-portal/sso/register"
+      - "/xander-portal/sso/getAuthCode"
+      - "/xander-portal/home/**"
+      - "/xander-portal/product/**"
+      - "/xander-portal/brand/**"
+      - "/xander-admin/admin/login"
+      - "/xander-admin/admin/register"
+      - "/xander-admin/minio/upload"
+#开启SpringBoot Admin的监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

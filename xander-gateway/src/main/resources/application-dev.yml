@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://127.0.0.1:8848
+        username: nacos
+        password: nacos
+        namespace: xander #命名空间
+      config:
+        server-addr: http://127.0.0.1:8848
+        file-extension: yml
+        namespace: xander #命名空间
+        username: nacos
+        password: nacos

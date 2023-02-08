@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--  项目信息，最外层打包方式为pom  -->
+    <groupId>org.xander</groupId>
+    <artifactId>xander-learn</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--  自动创建  -->
+    <modules>
+        <module>xander-common</module>
+        <module>xander-auth</module>
+        <module>xander-gateway</module>
+    </modules>
+
+    <!--  SpringBoot全局父依赖  -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+    </parent>
+
+    <!--全局常量配置（版本都在这里声明）-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <skipTests>true</skipTests>
+        <docker.host>http://192.168.3.105:2375</docker.host>
+        <docker.maven.plugin.version>0.40.0</docker.maven.plugin.version>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud-starter-oauth2.version>2.2.5.RELEASE</spring-cloud-starter-oauth2.version>
+        <pagehelper-starter.version>1.4.1</pagehelper-starter.version>
+        <pagehelper.version>5.3.0</pagehelper.version>
+        <druid.version>1.2.3</druid.version>
+        <hutool.version>5.8.0</hutool.version>
+        <mybatis-generator.version>1.4.1</mybatis-generator.version>
+        <mybatis.version>3.5.9</mybatis.version>
+        <mysql-connector.version>8.0.29</mysql-connector.version>
+        <spring-data-commons.version>2.7.0</spring-data-commons.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <aliyun-oss.version>2.5.0</aliyun-oss.version>
+        <logstash-logback.version>5.3</logstash-logback.version>
+        <admin-starter-server.version>2.7.0</admin-starter-server.version>
+        <minio.version>8.2.2</minio.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
+        <xander-common.version>1.0-SNAPSHOT</xander-common.version>
+        <xander-mbg.version>1.0-SNAPSHOT</xander-mbg.version>
+    </properties>
+
+    <dependencies>
+        <!--  用于检测系统的健康情况、当前的Beans、系统的缓存等  -->
+        <!--    通常配合监控程序使用    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--    切面编程    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--    全局测试依赖    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <!--    HuTool工具类,core只是HuTool工具类的一个模块    -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <!--    强大的lombok    -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--   生成配置元数据,最终的作用是编译后即可在application.yml中使用配置提示（需要在自动配置类下添加注解ConfigurationProperties）   -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+        <!--  依赖版本声明,防止以来冲突  -->
+        <dependencyManagement>
+            <dependencies>
+                <!--       SpringCloud相关依赖,需要和Spring-Boot-Parent对应         -->
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-dependencies</artifactId>
+                    <version>${spring-cloud.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+                <!--Spring Cloud Alibaba 相关依赖-->
+                <dependency>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                    <version>${spring-cloud-alibaba.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+                <!--引入通用模块-->
+                <dependency>
+                    <groupId>org.xander</groupId>
+                    <artifactId>xander-common</artifactId>
+                    <version>${xander-common.version}</version>
+                </dependency>
+                <!--Mybatis分页插件starter-->
+                <dependency>
+                    <groupId>com.github.pagehelper</groupId>
+                    <artifactId>pagehelper-spring-boot-starter</artifactId>
+                    <version>${pagehelper-starter.version}</version>
+                </dependency>
+                <!--MyBatis分页插件-->
+                <dependency>
+                    <groupId>com.github.pagehelper</groupId>
+                    <artifactId>pagehelper</artifactId>
+                    <version>${pagehelper.version}</version>
+                </dependency>
+                <!--集成druid连接池-->
+                <dependency>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid-spring-boot-starter</artifactId>
+                    <version>${druid.version}</version>
+                </dependency>
+                <!--HuTool Java工具类-->
+                <dependency>
+                    <groupId>cn.hutool</groupId>
+                    <artifactId>hutool-all</artifactId>
+                    <version>${hutool.version}</version>
+                </dependency>
+                <!--Knife4J API文档生产工具-->
+                <!--微服务专用knife4j依赖(无需引用前端UI模块)-->
+                <dependency>
+                    <groupId>com.github.xiaoymin</groupId>
+                    <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                    <version>${knife4j.version}</version>
+                </dependency>
+                <!--knife4j依赖-->
+                <dependency>
+                    <groupId>com.github.xiaoymin</groupId>
+                    <artifactId>knife4j-spring-boot-starter</artifactId>
+                    <version>${knife4j.version}</version>
+                </dependency>
+                <!--Mybatis 生成器-->
+                <dependency>
+                    <groupId>org.mybatis.generator</groupId>
+                    <artifactId>mybatis-generator-core</artifactId>
+                    <version>${mybatis-generator.version}</version>
+                </dependency>
+                <!--Mybatis-->
+                <dependency>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </dependency>
+                <!--MySQL 数据库驱动-->
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                </dependency>
+                <!--SpringData工具包-->
+                <dependency>
+                    <groupId>org.springframework.data</groupId>
+                    <artifactId>spring-data-commons</artifactId>
+                    <version>${spring-data-commons.version}</version>
+                </dependency>
+                <!--JWT JSON WEB Token 支持-->
+                <dependency>
+                    <groupId>com.nimbusds</groupId>
+                    <artifactId>nimbus-jose-jwt</artifactId>
+                    <version>${nimbus-jose-jwt.version}</version>
+                </dependency>
+                <!--阿里云OSS-->
+                <dependency>
+                    <groupId>com.aliyun.oss</groupId>
+                    <artifactId>aliyun-sdk-oss</artifactId>
+                </dependency>
+                <!--集成Logstash ELK-->
+                <dependency>
+                    <groupId>net.logstash.logback</groupId>
+                    <artifactId>logstash-logback-encoder</artifactId>
+                    <version>${logstash-logback.version}</version>
+                </dependency>
+                <!--集成SpringBoot Admin 监控-->
+                <dependency>
+                    <groupId>de.codecentric</groupId>
+                    <artifactId>spring-boot-admin-starter-server</artifactId>
+                    <version>${admin-starter-server.version}</version>
+                </dependency>
+                <!--MINIO SDK-->
+                <dependency>
+                    <groupId>io.minio</groupId>
+                    <artifactId>minio</artifactId>
+                    <version>${minio.version}</version>
+                </dependency>
+            </dependencies>
+        </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--打包把依赖的lib包也打进去(没有引入打包是不可执行的)-->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
