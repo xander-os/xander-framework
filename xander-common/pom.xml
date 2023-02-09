@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <!--公共模块信息-->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.xander</groupId>
+    <groupId>com.xander</groupId>
     <artifactId>xander-common</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -14,8 +14,8 @@
 
     <!--声明父模块-->
     <parent>
-        <artifactId>xander-learn</artifactId>
-        <groupId>org.xander</groupId>
+        <artifactId>xander-framework</artifactId>
+        <groupId>com.xander</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 

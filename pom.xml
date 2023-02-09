@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!--  项目信息，最外层打包方式为pom  -->
-    <groupId>org.xander</groupId>
-    <artifactId>xander-learn</artifactId>
+    <groupId>com.xander</groupId>
+    <artifactId>xander-framework</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
@@ -15,6 +15,7 @@
         <module>xander-common</module>
         <module>xander-auth</module>
         <module>xander-gateway</module>
+        <module>xander-admin</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->
@@ -113,7 +114,7 @@
                 </dependency>
                 <!--引入通用模块-->
                 <dependency>
-                    <groupId>org.xander</groupId>
+                    <groupId>com.xander</groupId>
                     <artifactId>xander-common</artifactId>
                     <version>${xander-common.version}</version>
                 </dependency>
@@ -186,6 +187,7 @@
                 <dependency>
                     <groupId>com.aliyun.oss</groupId>
                     <artifactId>aliyun-sdk-oss</artifactId>
+                    <version>${aliyun-oss.version}</version>
                 </dependency>
                 <!--集成Logstash ELK-->
                 <dependency>
