@@ -5,9 +5,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://127.0.0.1:7306/xander?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/xander?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: asd123456
+    password: root
     druid:
       initial-size: 5 #连接池初始化大小
       min-idle: 10 #最小空闲连接数
