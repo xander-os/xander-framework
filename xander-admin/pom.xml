@@ -21,22 +21,9 @@
     <!--引入父模块声明依赖-->
     <dependencies>
         <!--代码生成器-->
-<!--        <dependency>-->
-<!--            <groupId>com.macro.mall</groupId>-->
-<!--            <artifactId>mall-mbg</artifactId>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>2.0.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.xander</groupId>
-            <artifactId>xander-common</artifactId>
+            <groupId>com.macro.xander</groupId>
+            <artifactId>xander-mbg</artifactId>
         </dependency>
         <!--注册中心-->
         <dependency>

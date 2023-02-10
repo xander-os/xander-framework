@@ -5,10 +5,10 @@ spring:
         server-addr: http://127.0.0.1:8848
         username: nacos
         password: nacos
-        namespace: 40aae90a-b08a-4b34-9036-29518342716b #命名空间
+        namespace: xander #命名空间
       config:
         server-addr: http://127.0.0.1:8848
         file-extension: yml
-        namespace: 40aae90a-b08a-4b34-9036-29518342716b
+        namespace: xander
         username: nacos
         password: nacos

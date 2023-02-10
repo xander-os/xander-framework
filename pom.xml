@@ -16,6 +16,7 @@
         <module>xander-auth</module>
         <module>xander-gateway</module>
         <module>xander-admin</module>
+        <module>xander-mbg</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->
@@ -170,6 +171,7 @@
                 <dependency>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql-connector.version}</version>
                 </dependency>
                 <!--SpringData工具包-->
                 <dependency>
