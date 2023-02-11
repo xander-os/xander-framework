@@ -94,3 +94,15 @@ services:
       - "MODE=standalone"
     ports:
       - 8848:8848
+  minio:
+    image: minio/minio
+    container_name: minio
+    volumes:
+      - ./docker_volumes/minio/data:/data #数据文件挂载
+    ports:
+      - 9000:9000 #API端口
+      - 9001:9001 #网页管理端口
+    command: server --console-address ':9001' /data  #注意使用--console-address指定MinIO Console的运行端口（否则会随机端口运行）
+    environment:
+      - "MINIO_ROOT_USER=admin"
+      - "MINIO_ROOT_PASSWORD=12345678"

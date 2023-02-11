@@ -5,10 +5,12 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.InnerClass;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
 import org.mybatis.generator.internal.util.StringUtility;
 
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author ：ZhRunXin
@@ -51,6 +53,17 @@ public class CommentGenerator extends DefaultCommentGenerator {
     }
 
     /**
+     * 给类添加ApiModel注释，
+     */
+    @Override
+    public void addClassAnnotation(InnerClass innerClass, IntrospectedTable introspectedTable, Set<FullyQualifiedJavaType> imports) {
+        // introspectedTable.getRemarks()
+        // 设置 useInformationSchema 属性为 true，才能获取到表注释
+        // <property name="useInformationSchema" value="true"/>
+        super.addClassAnnotation(innerClass, introspectedTable, imports);
+    }
+
+    /**
      * 给model的字段添加注释
      */
     private void addFieldJavaDoc(Field field, String remarks) {
@@ -65,6 +78,9 @@ public class CommentGenerator extends DefaultCommentGenerator {
         field.addJavaDocLine(" */");
     }
 
+    /**
+     * 在Java类文件中增加引入包import ....
+     */
     @Override
     public void addJavaFileComment(CompilationUnit compilationUnit) {
         super.addJavaFileComment(compilationUnit);

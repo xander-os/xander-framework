@@ -66,7 +66,7 @@ minio:
   endpoint: http://127.0.0.1:9000 #MinIO服务所在地址
   bucketName: xander #存储桶名称
   accessKey: admin #访问的key
-  secretKey: 123456 #访问的秘钥
+  secretKey: 12345678 #访问的秘钥
 feign:
   okhttp:
     enabled: true

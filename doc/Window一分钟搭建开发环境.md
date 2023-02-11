@@ -26,3 +26,10 @@ logstash-plugin install logstash-codec-json_lines
 # 等待出现Installation successful就表示成功
 ```
 
+
+
+相关
+
+Nacos：http://127.0.0.1:8848/nacos/ 初始账号密码nacos
+
+MySQL：

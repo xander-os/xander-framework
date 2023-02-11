@@ -14,6 +14,7 @@ import java.util.List;
  * @date ：Created in 2023/2/7 21:35
  * @email ：zhrunxin33@gmail.com
  * @description：生成MBG代码
+ * 读取MySQL表数据逆向生成代码
  */
 public class Generator {
     public static void main(String[] args) throws Exception {

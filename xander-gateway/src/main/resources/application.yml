@@ -21,6 +21,12 @@ spring:
           # 把一个路径去掉，在这里去掉/xander-auth部分
           filters:
             - StripPrefix=1
+        - id: xander-admin
+          uri: lb://xander-admin
+          predicates:
+            - Path=/xander-admin/**
+          filters:
+            - StripPrefix=1
   security:
     oauth2:
       resourceserver:

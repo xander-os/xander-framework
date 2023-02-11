@@ -22,8 +22,9 @@
     <dependencies>
         <!--代码生成器-->
         <dependency>
-            <groupId>com.macro.xander</groupId>
+            <groupId>com.xander</groupId>
             <artifactId>xander-mbg</artifactId>
+            <version>${xander-mbg.version}</version>
         </dependency>
         <!--注册中心-->
         <dependency>

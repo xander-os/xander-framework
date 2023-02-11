@@ -58,7 +58,7 @@ public class MinIOConfig {
             }
         }catch (Exception e){
             e.printStackTrace();
-            LOGGER.info("MinIO初始化失败: {}！", e.getMessage());
+            LOGGER.warn("MinIO初始化失败: {}！", e.getMessage());
         }
         return minioClient;
     }
