@@ -58,7 +58,7 @@ public class MinIOConfig {
             }
         }catch (Exception e){
             e.printStackTrace();
-            LOGGER.warn("MinIO初始化失败: {}！", e.getMessage());
+            LOGGER.error("MinIO初始化失败: {}！", e.getMessage());
         }
         return minioClient;
     }
@@ -76,5 +76,19 @@ public class MinIOConfig {
                 .Version("2012-10-17")
                 .Statement(CollUtil.toList(statement))
                 .build();
+    }
+
+    /**
+     * 返回上传节点
+     */
+    public String getEndPoint(){
+        return this.ENDPOINT;
+    }
+
+    /**
+     * 返回桶
+     */
+    public String getBucket(){
+        return this.BUCKET_NAME;
     }
 }
