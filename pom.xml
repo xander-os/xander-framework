@@ -17,6 +17,9 @@
         <module>xander-gateway</module>
         <module>xander-admin</module>
         <module>xander-mbg</module>
+        <module>xander-hasor</module>
+        <module>xander-xxljob</module>
+        <module>xander-xxljob-executor</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->
