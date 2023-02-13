@@ -76,3 +76,7 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+logging:
+  level:
+    root: info
+    com.macro.xander: debug

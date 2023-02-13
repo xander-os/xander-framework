@@ -3,6 +3,7 @@ package com.macro.xander.auth;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author ：ZhRunXin
@@ -10,6 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @email ：zhrunxin33@gmail.com
  * @description：校验微服务启动类
  */
+@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.macro.xander")
 public class XanderAuthApplication {

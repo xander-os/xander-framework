@@ -69,7 +69,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 return  Mono.just(new AuthorizationDecision(false));
             }
             // 把Token前缀去掉，例如Bearer xxxxx
-            String realToken = token.replace(AuthConstant.JWT_TOKEN_HEADER, "");
+            String realToken = token.replace(AuthConstant.JWT_TOKEN_PREFIX, "");
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
             // 提取JWT中的用户信息鉴权
