@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: xander-monitor
+  profiles:
+    active: dev
+  security: # 配置登录用户名和密码
+    user:
+      name: xander
+      password: 123456
+  boot:  # 不显示admin-server的监控信息(不显示自己)
+    admin:
+      discovery:
+        ignored-services: ${spring.application.name}
+server:
+  port: 8101

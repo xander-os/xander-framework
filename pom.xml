@@ -20,6 +20,7 @@
         <module>xander-hasor</module>
         <module>xander-xxljob</module>
         <module>xander-xxljob-executor</module>
+        <module>xander-monitor</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->

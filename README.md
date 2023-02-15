@@ -15,16 +15,16 @@
 ``` lua
 xander
 ├── xander-common -- 工具类及通用代码模块
+├── xander-hasor -- 零代码开发服务
 ├── xander-mbg -- MyBatisGenerator生成的数据库操作代码模块
+├── xander-executor -- XxlJob的执行器服务
 ├── xander-auth -- 基于Spring Security Oauth2的统一的认证中心
 ├── xander-gateway -- 基于Spring Cloud Gateway的微服务API网关服务
+├── xander-xxljob -- XxlJob调度服务
 ├── xander-monitor -- 基于Spring Boot Admin的微服务监控中心
 ├── xander-admin -- 后台管理系统服务
 ├── xander-search -- 基于Elasticsearch的搜索系统服务
 ├── xander-portal -- 门户系统服务
-├── xander-hasor -- 零代码开发服务
-├── xander-xxljob -- XxlJob调度服务
-├── xander-executor -- XxlJob的执行器服务
 ├── xander-demo -- 微服务远程调用测试服务
 └── config -- 配置中心存储的配置
 ```
@@ -38,12 +38,17 @@ xander
 - xander-gateway作为网关服务
 - xander-auth负责权限校验
 
-## 后续版本说明
+
 ### xander 2.0 版本
 
 - 新增xander-hasor，实现零代码开发服务
 - 增加xander-admin模块和集成XxlJob远程调度
 
+## 后续版本说明
+### xander 3.0 版本
+
+- 新增xander-monitor，集成Spring-Boot-Admin服务。
+- 对SpringBoot应用的各项指标进行监控，作为微服务架构中的监控中心
 
 ## 技术选型
 
