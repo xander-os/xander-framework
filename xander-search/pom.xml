@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--Admin模块信息-->
+    <!--ES搜索模块-->
     <groupId>com.xander</groupId>
-    <artifactId>xander-admin</artifactId>
+    <artifactId>xander-search</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>xander-admin</name>
-    <description>xander-admin for project xander</description>
+    <name>xander-search</name>
+    <description>xander-search project for xander</description>
 
     <parent>
         <artifactId>xander-framework</artifactId>
@@ -18,12 +18,29 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <!--引入父模块声明依赖-->
+
     <dependencies>
-        <!--代码生成器-->
+        <!--MBG模块-->
         <dependency>
             <groupId>com.xander</groupId>
             <artifactId>xander-mbg</artifactId>
+            <exclusions>
+                <!--不需要Redis-->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-redis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--ElasticSearch-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
         <!--注册中心-->
         <dependency>
@@ -35,33 +52,6 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!--Redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--阿里云OSS-->
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-        </dependency>
-        <!--MinIO JAVA SDK-->
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-        </dependency>
-        <!--OpenFeign-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-        </dependency>
-
-
-
     </dependencies>
 
     <build>
@@ -73,6 +63,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

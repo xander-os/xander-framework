@@ -1,4 +1,4 @@
-package com.macro.xander.config;
+package com.macro.xander.search.config;
 
 import com.macro.xander.common.config.BaseSwaggerConfig;
 import com.macro.xander.common.domain.SwaggerProperties;
@@ -9,22 +9,23 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author ：ZhRunXin
- * @date ：Created in 2023/2/9 21:41
+ * @date ：Created in 2023/2/16 14:16
  * @email ：zhrunxin33@gmail.com
- * @description：Swagger子模块自定义配置
+ * @description：Swagger相关配置（每个微服务都要）
  */
-@EnableSwagger2
 @Configuration
+@EnableSwagger2
 public class SwaggerConfig extends BaseSwaggerConfig {
+
     @Override
-    public SwaggerProperties swaggerProperties() {
+    protected SwaggerProperties swaggerProperties() {
         return SwaggerProperties.builder()
-                .apiBasePackage("com.macro.xander.controller")
-                .title("xander后台系统")
-                .description("xander后台相关接口文档")
+                .apiBasePackage("com.macro.xander.search.controller")
+                .title("xander搜索系统")
+                .description("xander搜索相关接口文档")
                 .contactName("xander")
                 .version("1.0")
-                .enableSecurity(true)
+                .enableSecurity(false)
                 .build();
     }
 

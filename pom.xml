@@ -21,6 +21,7 @@
         <module>xander-xxljob</module>
         <module>xander-xxljob-executor</module>
         <module>xander-monitor</module>
+        <module>xander-search</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->
@@ -212,6 +213,12 @@
                     <groupId>io.minio</groupId>
                     <artifactId>minio</artifactId>
                     <version>${minio.version}</version>
+                </dependency>
+                <!--mall中MBG生成模块-->
+                <dependency>
+                    <groupId>com.xander</groupId>
+                    <artifactId>xander-mbg</artifactId>
+                    <version>${xander-mbg.version}</version>
                 </dependency>
             </dependencies>
         </dependencyManagement>
