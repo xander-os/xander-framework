@@ -214,7 +214,7 @@
                     <artifactId>minio</artifactId>
                     <version>${minio.version}</version>
                 </dependency>
-                <!--mall中MBG生成模块-->
+                <!--xander中MBG生成模块-->
                 <dependency>
                     <groupId>com.xander</groupId>
                     <artifactId>xander-mbg</artifactId>

@@ -1,5 +1,7 @@
 package com.macro.xander.component;
 
+import com.macro.xander.service.UmsResourceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -13,8 +15,11 @@ import javax.annotation.PostConstruct;
 @Component
 public class ResourceRoleRulesHolder {
 
+    @Autowired
+    private UmsResourceService resourceService;
+
     @PostConstruct
     public void initResourceRolesMap(){
-
+        resourceService.initResourceRolesMap();
     }
 }
