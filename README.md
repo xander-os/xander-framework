@@ -50,7 +50,7 @@ xander
 
 - 新增xander-monitor，集成Spring-Boot-Admin服务。
 - 对SpringBoot应用的各项指标进行监控，作为微服务架构中的监控中心
-- 
+
 ## 后续版本说明
 ### xander 4.0 版本
 
