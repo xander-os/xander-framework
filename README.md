@@ -45,11 +45,16 @@ xander
 - 增加xander-admin模块和集成XxlJob远程调度
 - 增加xander-search模块，集成ES（做好权限隔绝，ES模块不具备修改MySQL表的权限）
 
-## 后续版本说明
+
 ### xander 3.0 版本
 
 - 新增xander-monitor，集成Spring-Boot-Admin服务。
 - 对SpringBoot应用的各项指标进行监控，作为微服务架构中的监控中心
+- 
+## 后续版本说明
+### xander 3.0 版本
+
+- 集成XxlJob分布式调度系统以及执行器服务
 
 ## 技术选型
 

@@ -58,6 +58,7 @@
         <minio.version>8.2.2</minio.version>
         <knife4j.version>3.0.3</knife4j.version>
         <nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
+        <hasor.version>4.2.5</hasor.version>
         <xander-common.version>1.0-SNAPSHOT</xander-common.version>
         <xander-mbg.version>1.0-SNAPSHOT</xander-mbg.version>
     </properties>
@@ -219,6 +220,17 @@
                     <groupId>com.xander</groupId>
                     <artifactId>xander-mbg</artifactId>
                     <version>${xander-mbg.version}</version>
+                </dependency>
+                <!--Hasor模块-->
+                <dependency>
+                    <groupId>net.hasor</groupId>
+                    <artifactId>hasor-spring</artifactId>
+                    <version>${hasor.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>net.hasor</groupId>
+                    <artifactId>hasor-dataway</artifactId>
+                    <version>${hasor.version}</version>
                 </dependency>
             </dependencies>
         </dependencyManagement>

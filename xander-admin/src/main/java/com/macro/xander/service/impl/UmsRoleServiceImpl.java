@@ -1,7 +1,7 @@
 package com.macro.xander.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.macro.xander.dto.UmsRoleDao;
+import com.macro.xander.dao.UmsRoleDao;
 import com.macro.xander.mapper.UmsRoleMapper;
 import com.macro.xander.mapper.UmsRoleMenuRelationMapper;
 import com.macro.xander.mapper.UmsRoleResourceRelationMapper;

@@ -1,4 +1,4 @@
-package com.macro.xander.dto;
+package com.macro.xander.dao;
 
 import com.macro.xander.model.UmsMenu;
 import com.macro.xander.model.UmsResource;
