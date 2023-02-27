@@ -27,6 +27,12 @@ spring:
             - Path=/xander-admin/**
           filters:
             - StripPrefix=1
+        - id: xander-seckill
+          uri: lb://xander-seckill
+          predicates:
+            - Path=/xander-seckill/**
+          filters:
+            - StripPrefix=1
   security:
     oauth2:
       resourceserver:

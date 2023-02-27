@@ -21,7 +21,7 @@ public class UmsMemberServiceMock implements UmsMemberService {
     public void init(){
         UserDto userDto = new UserDto();
         userDto.setClientId("portal-app");
-        userDto.setId(2l);
+        userDto.setId(1l);
         userDto.setStatus(1);
 //        userDto.setRoles();
         userDto.setUsername("test");

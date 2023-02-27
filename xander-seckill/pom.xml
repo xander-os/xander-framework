@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--秒杀模块-->
+    <groupId>com.xander</groupId>
+    <artifactId>xander-seckill</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>xander-seckill</name>
+    <description>SecKill project for xander</description>
+
+    <parent>
+        <artifactId>xander-framework</artifactId>
+        <groupId>com.xander</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!--  自动创建  -->
+    <modules>
+        <module>xander-seckill-example01</module>
+    </modules>
+
+    <dependencies>
+        <!--里面包含common模块-->
+        <dependency>
+            <groupId>com.xander</groupId>
+            <artifactId>xander-mbg</artifactId>
+        </dependency>
+        <!--注册中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+    </dependencies>
+</project>

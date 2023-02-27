@@ -22,6 +22,7 @@
         <module>xander-xxljob-executor</module>
         <module>xander-monitor</module>
         <module>xander-search</module>
+        <module>xander-seckill</module>
     </modules>
 
     <!--  SpringBoot全局父依赖  -->
