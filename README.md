@@ -18,6 +18,7 @@ xander
 ├── xander-hasor -- 零代码开发服务
 ├── xander-mbg -- MyBatisGenerator生成的数据库操作代码模块
 ├── xander-executor -- XxlJob的执行器服务
+├── xander-seckill -- 秒杀模块（涉及高并发）
 ├── xander-auth -- 基于Spring Security Oauth2的统一的认证中心
 ├── xander-gateway -- 基于Spring Cloud Gateway的微服务API网关服务
 ├── xander-xxljob -- XxlJob调度服务

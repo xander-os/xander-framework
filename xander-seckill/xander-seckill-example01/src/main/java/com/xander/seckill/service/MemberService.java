@@ -18,4 +18,9 @@ public interface MemberService {
      * 根据客户ID查询信息
      */
     UmsMember getById(Long memberId);
+
+    /**
+     * 根据用户名查询用户
+     */
+    UmsMember loadUserByUsername(String username);
 }

@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * @email ：zhrunxin33@gmail.com
  * @description：模拟调用用户微服务
  */
-@Service
+//@Service
 public class UmsMemberServiceMock implements UmsMemberService {
 
     private static UserDto mock = null;

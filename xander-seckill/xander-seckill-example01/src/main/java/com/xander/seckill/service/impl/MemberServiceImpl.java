@@ -52,4 +52,11 @@ public class MemberServiceImpl implements MemberService {
     public UmsMember getById(Long id) {
         return umsMemberMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public UmsMember loadUserByUsername(String username) {
+        UmsMemberExample umsMemberExample = new UmsMemberExample();
+        umsMemberExample.createCriteria().andUsernameEqualTo(username);
+        return umsMemberMapper.selectByExample(umsMemberExample).get(0);
+    }
 }
