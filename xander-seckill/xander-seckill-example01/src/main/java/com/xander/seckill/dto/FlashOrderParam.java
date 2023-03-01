@@ -24,5 +24,5 @@ public class FlashOrderParam {
     private Integer count;
     @NotEmpty
     @ApiModelProperty("秒杀商品Sku")
-    private Long ProductSkuId;
+    private Long productSkuId;
 }

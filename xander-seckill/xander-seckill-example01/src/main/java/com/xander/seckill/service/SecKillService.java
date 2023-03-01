@@ -1,6 +1,7 @@
 package com.xander.seckill.service;
 
 import com.macro.xander.model.SmsFlashPromotionProductRelation;
+import com.macro.xander.model.UmsMemberReceiveAddress;
 import com.xander.seckill.dto.FlashOrderParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +26,10 @@ public interface SecKillService {
      * 获取当前场次库存
      */
     SmsFlashPromotionProductRelation getSessionStock(Long goodsId, Long promotionId);
+
+    /**
+     * 获取用户收货地址
+     */
+    UmsMemberReceiveAddress getItem(Long id);
 
 }

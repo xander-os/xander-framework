@@ -24,11 +24,11 @@
     <!--减限时购库存-->
     <update id="reduceFlashStock">
         update sms_flash_promotion_product_relation set flash_promotion_count = flash_promotion_count - #{quantity}
-        where id = #{flashSessionRelationId} and flash_promotion_count > #{quantity}
+        where id = #{flashSessionRelationId} and flash_promotion_count >= #{quantity}
     </update>
     <!--减少SKU的库存-->
     <update id="reduceStock">
         update pms_sku_stock set stock = stock - #{quantity}
-        where id = #{skuId} and stock > #{quantity}
+        where id = #{skuId} and stock >= #{quantity}
     </update>
 </mapper>

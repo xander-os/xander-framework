@@ -15,7 +15,7 @@ import com.xander.seckill.service.SecKillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -31,17 +31,9 @@ import java.util.*;
 public class SecKillServiceImpl implements SecKillService {
 
     @Autowired
-    private SmsFlashPromotionSessionMapper smsFlashPromotionSessionMapper;
-    @Autowired
     private SmsFlashPromotionMapper smsFlashPromotionMapper;
     @Autowired
-    private SmsFlashPromotionProductRelationMapper smsFlashPromotionProductRelationMapper;
-    @Autowired
     private SecKillMapper secKillMapper;
-    @Autowired
-    private PmsSkuStockMapper skuStockMapper;
-    @Autowired
-    private OmsOrderItemMapper orderItemMapper;
     @Autowired
     private OmsOrderMapper orderMapper;
     @Autowired
@@ -54,6 +46,8 @@ public class SecKillServiceImpl implements SecKillService {
     private PmsProductMapper pmsProductMapper;
     @Autowired
     private PmsSkuStockMapper pmsSkuStockMapper;
+    @Autowired
+    private UmsMemberReceiveAddressMapper addressMapper;
     @Value("${redis.key.orderId}")
     private String REDIS_KEY_ORDER_ID;
     @Value("${redis.database}")
@@ -109,9 +103,15 @@ public class SecKillServiceImpl implements SecKillService {
         }
         // ⑤减库存，下单
         // 限时购库存减少
-        secKillMapper.reduceFlashStock(sessionStock.getId(),flashOrderParam.getCount());
+        int reduceFlashStock = secKillMapper.reduceFlashStock(sessionStock.getId(), flashOrderParam.getCount());
+        if (reduceFlashStock <= 0){
+            Asserts.failed("限时购当前场次库存不足！");
+        }
         // sku库存减少
-        secKillMapper.reduceStock(pmsSkuStocks.get(0).getId(), flashOrderParam.getCount());
+        int reduceStock = secKillMapper.reduceStock(pmsSkuStocks.get(0).getId(), flashOrderParam.getCount());
+        if (reduceStock <= 0){
+            Asserts.failed("限时购商品sku库存不足！");
+        }
         // TODO 商品库存减少
 //        PmsSkuStock skuStock = skuStockMapper.selectByPrimaryKey(flashOrderParam.getProductSkuId());
 //        // 限时购锁定下单商品的库存
@@ -143,20 +143,20 @@ public class SecKillServiceImpl implements SecKillService {
         //订单类型：0->正常订单；1->秒杀订单
         order.setOrderType(0);
         //收货人信息：姓名、电话、邮编、地址
-//        UmsMemberReceiveAddress address = memberReceiveAddressService.getItem(orderParam.getMemberReceiveAddressId());
-        order.setReceiverName("xander");
-        order.setReceiverPhone("10086");
-//        order.setReceiverPostCode(address.getPostCode());
-//        order.setReceiverProvince(address.getProvince());
-//        order.setReceiverCity(address.getCity());
-//        order.setReceiverRegion(address.getRegion());
-//        order.setReceiverDetailAddress(address.getDetailAddress());
-//        order.setReceiverPhone(address.getPhoneNumber());
-//        order.setReceiverPostCode(address.getPostCode());
-//        order.setReceiverProvince(address.getProvince());
-//        order.setReceiverCity(address.getCity());
-//        order.setReceiverRegion(address.getRegion());
-//        order.setReceiverDetailAddress(address.getDetailAddress());
+        UmsMemberReceiveAddress address = this.getItem(flashOrderParam.getMemberReceiveAddressId());
+        order.setReceiverName(address.getName());
+        order.setReceiverPhone(address.getPhoneNumber());
+        order.setReceiverPostCode(address.getPostCode());
+        order.setReceiverProvince(address.getProvince());
+        order.setReceiverCity(address.getCity());
+        order.setReceiverRegion(address.getRegion());
+        order.setReceiverDetailAddress(address.getDetailAddress());
+        order.setReceiverPhone(address.getPhoneNumber());
+        order.setReceiverPostCode(address.getPostCode());
+        order.setReceiverProvince(address.getProvince());
+        order.setReceiverCity(address.getCity());
+        order.setReceiverRegion(address.getRegion());
+        order.setReceiverDetailAddress(address.getDetailAddress());
         //0->未确认；1->已确认
         order.setConfirmStatus(0);
         order.setDeleteStatus(0);
@@ -168,7 +168,6 @@ public class SecKillServiceImpl implements SecKillService {
         order.setOrderSn(generateOrderSn(order));
         orderMapper.insert(order);
         // 查询商品
-
         // 生成Item
         ArrayList<OmsOrderItem> orderItemList = new ArrayList<>();
         //生成下单商品信息
@@ -176,7 +175,6 @@ public class SecKillServiceImpl implements SecKillService {
         orderItem.setProductId(pmsProduct.getId());
         orderItem.setProductName(pmsProduct.getName());
         orderItem.setProductPic(pmsProduct.getPic());
-//            orderItem.setProductAttr();
         orderItem.setProductBrand(pmsProduct.getBrandName());
         orderItem.setProductSn(pmsProduct.getProductSn());
         orderItem.setProductPrice(pmsProduct.getPrice());
@@ -195,6 +193,18 @@ public class SecKillServiceImpl implements SecKillService {
     @Override
     public SmsFlashPromotionProductRelation getSessionStock(Long goodsId, Long promotionId) {
         return secKillMapper.getSessionStock(goodsId, promotionId);
+    }
+
+    @Override
+    public UmsMemberReceiveAddress getItem(Long id) {
+        UmsMember currentMember = memberService.getCurrentMember();
+        UmsMemberReceiveAddressExample example = new UmsMemberReceiveAddressExample();
+        example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(id);
+        List<UmsMemberReceiveAddress> addressList = addressMapper.selectByExample(example);
+        if(!CollectionUtils.isEmpty(addressList)){
+            return addressList.get(0);
+        }
+        return null;
     }
 
     /**

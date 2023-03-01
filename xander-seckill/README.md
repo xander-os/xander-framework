@@ -68,6 +68,31 @@ $$		-- 存储过程结束
 call generate();		-- 调用生成方法
 ```
 
+数据库时区修改为东八区
+
+:star:注意需要修改数据库配置文件才是永久的
+
+修改配置文件 /etc/my.cnf
+
+```csharp
+[mysqld]
+default-time_zone = '+8:00'
+```
+
+
+
+```mysql
+# 查询当前设置
+select @@GLOBAL.time_zone,@@SESSION.time_zone
+show variables like "%time_zone%";
+-- 设置全局
+set global time_zone = '+8:00';
+set time_zone='+8:00';
+-- 立即生效
+flush privileges; 
+select now();
+```
+
 
 
 ## ① 最简单的实现（没有事务，没有锁）

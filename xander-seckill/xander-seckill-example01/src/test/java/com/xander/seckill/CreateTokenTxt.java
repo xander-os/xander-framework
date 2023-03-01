@@ -37,7 +37,16 @@ public class CreateTokenTxt {
     private static final String fileUrl = "./token.txt";
     // 最大限购数量
     private static final Integer quantity = 2;
+    // 生成压测数据数量
+    private static final Integer count = 100;
+    // 商品ID
+    private static final Long goodId = 26l;
+    // 限时购ID
+    private static final Long promotionId = 2l;
+    // 限时购商品的Sku ID
+    private static final Long productSkuId = 110l;
 
+    // 登录参数
     private static Map<String,Object> params = new HashMap<>();
     @Autowired
     private UmsMemberMapper umsMemberMapper;
@@ -61,7 +70,10 @@ public class CreateTokenTxt {
         umsMemberExample.createCriteria().andIdGreaterThan(10l);
         List<UmsMember> umsMembers = umsMemberMapper.selectByExample(umsMemberExample);
         Assertions.assertTrue(CollectionUtil.isNotEmpty(umsMembers));
-        umsMembers = CollectionUtil.sub(umsMembers,0,10);
+        // 截取
+        if(CollectionUtil.size(umsMembers) > count){
+            umsMembers = CollectionUtil.sub(umsMembers,0,count);
+        }
         List<Member> members = new ArrayList<>();
         try {
             for (UmsMember umsMember : umsMembers) {
@@ -71,7 +83,11 @@ public class CreateTokenTxt {
                 CommonResult<HashMap<String,String>> result = objectMapper.readValue(post, CommonResult.class);
                 String token = result.getData().get("token");
                 Member member = new Member();
-                member.setCount(quantity.toString());
+                member.setCount(1l);
+                member.setGoodsId(goodId);
+                member.setMemberReceiveAddressId(umsMember.getId() + 10000);
+                member.setPromotionId(promotionId);
+                member.setProductSkuId(productSkuId);
                 member.setToken(token);
                 members.add(member);
             }
@@ -83,60 +99,51 @@ public class CreateTokenTxt {
             System.out.println(e);
         }
     }
-
-    public static void main(String[] args) throws JsonProcessingException {
-        params.put("username","zhengsan");
-        String post = HttpUtil.post(oAuthUrl, params);
-        ObjectMapper objectMapper = new ObjectMapper();
-        CommonResult<HashMap<String,String>> result = objectMapper.readValue(post, CommonResult.class);
-        System.out.println(result.getData().get("token"));
-    }
-
     public static class Member{
-        private String goodsId;
-        private String promotionId;
-        private String memberReceiveAddressId;
-        private String ProductSkuId;
-        private String count;
+        private Long goodsId;
+        private Long promotionId;
+        private Long memberReceiveAddressId;
+        private Long ProductSkuId;
+        private Long count;
         private String token;
 
-        public String getGoodsId() {
+        public Long getGoodsId() {
             return goodsId;
         }
 
-        public void setGoodsId(String goodsId) {
+        public void setGoodsId(Long goodsId) {
             this.goodsId = goodsId;
         }
 
-        public String getPromotionId() {
+        public Long getPromotionId() {
             return promotionId;
         }
 
-        public void setPromotionId(String promotionId) {
+        public void setPromotionId(Long promotionId) {
             this.promotionId = promotionId;
         }
 
-        public String getMemberReceiveAddressId() {
+        public Long getMemberReceiveAddressId() {
             return memberReceiveAddressId;
         }
 
-        public void setMemberReceiveAddressId(String memberReceiveAddressId) {
+        public void setMemberReceiveAddressId(Long memberReceiveAddressId) {
             this.memberReceiveAddressId = memberReceiveAddressId;
         }
 
-        public String getProductSkuId() {
+        public Long getProductSkuId() {
             return ProductSkuId;
         }
 
-        public void setProductSkuId(String productSkuId) {
+        public void setProductSkuId(Long productSkuId) {
             ProductSkuId = productSkuId;
         }
 
-        public String getCount() {
+        public Long getCount() {
             return count;
         }
 
-        public void setCount(String count) {
+        public void setCount(Long count) {
             this.count = count;
         }
 
@@ -157,5 +164,13 @@ public class CreateTokenTxt {
                     "," + count +
                     "," + token;
         }
+    }
+
+    public static void main(String[] args) throws JsonProcessingException {
+        params.put("username","zhengsan");
+        String post = HttpUtil.post(oAuthUrl, params);
+        ObjectMapper objectMapper = new ObjectMapper();
+        CommonResult<HashMap<String,String>> result = objectMapper.readValue(post, CommonResult.class);
+        System.out.println(result.getData().get("token"));
     }
 }
