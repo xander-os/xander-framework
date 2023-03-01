@@ -22,10 +22,22 @@ public class SecKillController {
     @Autowired
     private SecKillService secKillService;
 
+    /**
+     * QPS:30
+     */
     @PostMapping("/secKill")
     @ApiOperation(value="秒杀")
     public CommonResult<Object> secKill(@RequestBody FlashOrderParam param, @RequestParam("goodsId") Long goodsId, @RequestParam("promotionId") Long promotionId){
         Boolean result = secKillService.secKill(goodsId, promotionId,param);
+        return CommonResult.success("SecKill Success!");
+    }
+
+    /**
+     * QPS:1000
+     */
+    @PostMapping("/qps")
+    @ApiOperation(value="qps测试")
+    public CommonResult<Object> qps(){
         return CommonResult.success("SecKill Success!");
     }
 }
