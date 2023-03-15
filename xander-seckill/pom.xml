@@ -21,6 +21,7 @@
     <!--  自动创建  -->
     <modules>
         <module>xander-seckill-example01</module>
+        <module>xander-seckill-example02</module>
     </modules>
 
     <dependencies>

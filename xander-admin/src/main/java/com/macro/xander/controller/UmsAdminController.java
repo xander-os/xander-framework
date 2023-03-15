@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import com.macro.xander.common.api.CommonPage;
 import com.macro.xander.common.api.CommonResult;
 import com.macro.xander.common.domain.UserDto;
-import com.macro.xander.dto.TestValidatorParam;
 import com.macro.xander.dto.UmsAdminLoginParam;
 import com.macro.xander.dto.UmsAdminParam;
 import com.macro.xander.dto.UpdateAdminPasswordParam;

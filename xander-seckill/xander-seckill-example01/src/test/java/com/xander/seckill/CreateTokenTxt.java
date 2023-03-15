@@ -3,21 +3,18 @@ package com.xander.seckill;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.macro.xander.common.api.CommonResult;
 import com.macro.xander.mapper.UmsMemberMapper;
 import com.macro.xander.model.UmsMember;
 import com.macro.xander.model.UmsMemberExample;
-import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +35,7 @@ public class CreateTokenTxt {
     // 最大限购数量
     private static final Integer quantity = 2;
     // 生成压测数据数量
-    private static final Integer count = 100;
+    private static final Integer count = 300;
     // 商品ID
     private static final Long goodId = 26l;
     // 限时购ID

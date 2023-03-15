@@ -115,7 +115,57 @@ xander-seckill-example01模块的CreateTokenTxt测试类可以在当前模块根
 
 ![image-20230301121128073](..\doc\resource\image-20230301121128073.png)
 
+
+
+### 6.明确秒杀系统目标
+
+1. 尽可能高的QPS/并发量
+2. 防止商品超卖
+3. 保证操作原子性（开启事务）
+
+重点在于1，2两点。
+
+
+
+### 7.防止商品超卖的方法
+
+#### Ⅰ MySQL乐观锁 
+
+```mysql
+select version from goods WHERE id= 1001
+-- 这种方式采用了版本号的方式，其实也就是 CAS 的原理。
+-- 当然里面也有排它锁，但是MySQL在判断version不等后就会退出（因此这种方法是乐观锁）
+update goods set num = num - 1, version = version + 1 WHERE id= 1001 AND num > 0 AND version = @version(上面查到的version);
+```
+
+
+
+#### Ⅱ MySQL悲观锁
+
+```mysql
+-- 这里使用了写锁（排它锁），是悲观锁的一种
+update goods set num = num - 1 WHERE id = 1001 and num > 0
+```
+
+#### Ⅲ Redis单线程扣库存（配合lua）
+
+在秒杀的情况下，高频率的去读写数据库，会严重造成性能问题。所以必须借助其他服务， 利用 redis 的单线程预减库存。比如商品有 100 件。那么我在 redis 存储一个 k,v。例如
+
+每一个用户线程进来，key 值就减 1，等减到 0 的时候，全部拒绝剩下的请求。
+
+那么也就是只有 100 个线程会进入到后续操作。所以一定不会出现超卖的现象。
+
+#### Ⅳ 分布式锁
+
+复杂，不推荐
+
+#### 结论：使用Redis预减库存，配合MySQL悲观锁实现
+
+
+
 ## ① 最简单的实现example01（没有超卖,QPS低）
+
+防止超卖方式：方案Ⅱ（MySQL悲观锁）
 
 ```shell
 # 业务流程
@@ -131,3 +181,30 @@ xander-seckill-example01模块的CreateTokenTxt测试类可以在当前模块根
 没有出现超卖的情况，但是QPS只有30.0/sec
 
 ![image-20230301122205041](..\doc\resource\image-20230301122205041.png)
+
+
+
+## ② 优化实现example02（隐藏接口，QPS较高）
+
+防止超卖方案：**使用Redis预减库存，配合MySQL悲观锁实现**
+
+```shell
+# 思路（校验和秒杀接口分离）
+# 1.校验
+①查询限时购是否在时间范围内开启
+②如果redis中没有该限时购库存，初始化进Redis
+③根据用户ID和限时购ID和场次ID生成校验路径
+
+# 2.秒杀（默认进来的请求已经校验正常）
+①验证path路径
+②查询Redis该秒杀是否结束了 Key：xander:seckill:end:promotionId_sessionId
+③查询Redis是否已经秒杀超过限购数量 Key：xander:seckill:end:promotionId_sessionId Value：数量（lua脚本）
+④预减Redis的库存（限时购表和商品表）
+⑤减库存，生成订单下单（开事务）
+```
+
+#### 压测结果
+
+没有出现超卖的情况，但是QPS变成了110，提升了接近4倍！！！
+
+![image-20230315175715303](..\doc\resource\image-20230315175715303.png)
