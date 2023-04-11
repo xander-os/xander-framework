@@ -1,11 +1,10 @@
 ![logo](doc/resource/logo.png)
 # 一套规范标准的微服务开发框架
 
-[![Build Status](https://travis-ci.org/xia-chu/ZLMediaKit.svg?branch=master)](https://travis-ci.org/xia-chu/ZLMediaKit)
-[![license](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/xia-chu/ZLMediaKit/blob/master/LICENSE)
-[![JAVA](https://img.shields.io/badge/language-java-red.svg)](https://en.cppreference.com/)
-[![platform](https://img.shields.io/badge/platform-linux%20|%20macos%20|%20windows-blue.svg)](https://github.com/xia-chu/ZLMediaKit)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)](https://github.com/xia-chu/ZLMediaKit/pulls)
+[![license](http://img.shields.io/badge/license-MIT-green.svg)](https://github.com/King-Run/xander-framework)
+[![JAVA](https://img.shields.io/badge/language-java-red.svg)](https://github.com/King-Run/xander-framework)
+[![platform](https://img.shields.io/badge/platform-linux%20|%20macos%20|%20windows-blue.svg)](https://github.com/King-Run/xander-framework)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-yellow.svg)](https://github.com/King-Run/xander-framework)
 
 ## 介绍
 使用当前最热门的SpringCloud项目技术，提升代码规范和对分布式理解。打造一套规范的微服务开发框架。

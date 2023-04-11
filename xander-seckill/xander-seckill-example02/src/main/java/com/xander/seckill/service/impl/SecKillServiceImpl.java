@@ -242,7 +242,11 @@ public class SecKillServiceImpl implements SecKillService {
                 "    return -1\n" +
                 "end";
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
-        synchronized (this) { // TODO 想想怎么处理一致性出现超卖问题
+        // TODO 想想怎么处理一致性出现超卖问题
+        // 方案一：针对该商品使用分布式锁（优点：简单   缺点：单个商品的限购数量太高会有性能问题）
+        // 方案二：库存信息预先缓存到Redis(优点：不用考虑超卖的情况，为空直接返回失败  缺点：需要额外作缓存处理，定时或者初始化)
+        // 这里选用方案二
+        synchronized (this) {
             Long decrResult = redisTemplate.execute(redisScript, Arrays.asList(REDIS_DATABASE + ":" + REDIS_KEY_FLASH_NUM + ":"
                     + promotionId + "_" + goodsId + "_" + flashOrderParam.getProductSkuId()), "");
             // 减库存成功直接返回
