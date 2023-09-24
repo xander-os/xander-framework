@@ -220,3 +220,126 @@ public void addLongPollingClient(HttpServletRequest req, HttpServletResponse rsp
         }
 ```
 
+## 2.Nacos实现配置刷新
+
+入口
+
+```java
+## 循环执行直到MD5跟缓存的不一样
+void checkListenerMd5() {
+        for (ManagerListenerWrap wrap : listeners) {
+            if (!md5.equals(wrap.lastCallMd5)) {
+                safeNotifyListener(dataId, group, content, type, md5, encryptedDataKey, wrap);
+            }
+        }
+    }
+```
+
+
+
+```java
+private void safeNotifyListener(final String dataId, final String group, final String content, final String type,
+            final String md5, final String encryptedDataKey, final ManagerListenerWrap listenerWrap) {
+        final Listener listener = listenerWrap.listener;
+        
+        Runnable job = new Runnable() {
+            @Override
+            public void run() {
+                ClassLoader myClassLoader = Thread.currentThread().getContextClassLoader();
+                ClassLoader appClassLoader = listener.getClass().getClassLoader();
+                try {
+                    if (listener instanceof AbstractSharedListener) {
+                        AbstractSharedListener adapter = (AbstractSharedListener) listener;
+                        adapter.fillContext(dataId, group);
+                        LOGGER.info("[{}] [notify-context] dataId={}, group={}, md5={}", name, dataId, group, md5);
+                    }
+                    // 执行回调之前先将线程classloader设置为具体webapp的classloader，以免回调方法中调用spi接口是出现异常或错用（多应用部署才会有该问题）。
+                    Thread.currentThread().setContextClassLoader(appClassLoader);
+                    
+                    ConfigResponse cr = new ConfigResponse();
+                    cr.setDataId(dataId);
+                    cr.setGroup(group);
+                    cr.setContent(content);
+                    cr.setEncryptedDataKey(encryptedDataKey);
+                    configFilterChainManager.doFilter(null, cr);
+                    String contentTmp = cr.getContent();
+                    listener.receiveConfigInfo(contentTmp); //POINT
+                    
+                    // compare lastContent and content
+                    if (listener instanceof AbstractConfigChangeListener) {
+                        Map data = ConfigChangeHandler.getInstance()
+                                .parseChangeData(listenerWrap.lastContent, content, type);
+                        ConfigChangeEvent event = new ConfigChangeEvent(data);
+                        ((AbstractConfigChangeListener) listener).receiveConfigChange(event);
+                        listenerWrap.lastContent = content;
+                    }
+                    
+                    listenerWrap.lastCallMd5 = md5;
+                    LOGGER.info("[{}] [notify-ok] dataId={}, group={}, md5={}, listener={} ", name, dataId, group, md5,
+                            listener);
+                } catch (NacosException ex) {
+                    LOGGER.error("[{}] [notify-error] dataId={}, group={}, md5={}, listener={} errCode={} errMsg={}",
+                            name, dataId, group, md5, listener, ex.getErrCode(), ex.getErrMsg());
+                } catch (Throwable t) {
+                    LOGGER.error("[{}] [notify-error] dataId={}, group={}, md5={}, listener={} tx={}", name, dataId,
+                            group, md5, listener, t.getCause());
+                } finally {
+                    Thread.currentThread().setContextClassLoader(myClassLoader);
+                }
+            }
+        };
+```
+
+### 监听器注册
+
+NacosContextRefresher
+
+```java
+	private void registerNacosListenersForApplications() {
+		if (isRefreshEnabled()) {
+			for (NacosPropertySource propertySource : NacosPropertySourceRepository
+					.getAll()) {
+				if (!propertySource.isRefreshable()) {
+					continue;
+				}
+				String dataId = propertySource.getDataId();
+				registerNacosListener(propertySource.getGroup(), dataId);
+				log.info("listening config: dataId={}, group={}", dataId, propertySource.getGroup());
+			}
+		}
+	}
+```
+
+
+
+```java
+	private void registerNacosListener(final String groupKey, final String dataKey) {
+		String key = NacosPropertySourceRepository.getMapKey(dataKey, groupKey);
+		Listener listener = listenerMap.computeIfAbsent(key,
+				lst -> new AbstractSharedListener() {
+					@Override ## 这里重写了innerReceive
+					public void innerReceive(String dataId, String group,
+							String configInfo) {
+						refreshCountIncrement();
+						nacosRefreshHistory.addRefreshRecord(dataId, group, configInfo);
+						// todo feature: support single refresh for listening
+						applicationContext.publishEvent(
+								new RefreshEvent(this, null, "Refresh Nacos config"));
+						if (log.isDebugEnabled()) {
+							log.debug(String.format(
+									"Refresh Nacos config group=%s,dataId=%s,configInfo=%s",
+									group, dataId, configInfo));
+						}
+					}
+				});
+		try {
+			configService.addListener(dataKey, groupKey, listener);
+		}
+		catch (NacosException e) {
+			log.warn(String.format(
+					"register fail for nacos listener ,dataId=[%s],group=[%s]", dataKey,
+					groupKey), e);
+		}
+	}
+```
+
